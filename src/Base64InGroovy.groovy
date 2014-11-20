@@ -6,20 +6,20 @@ class Base64InGroovy {
     static char[] TO_BASE64 = new char[64]
     static byte[] FROM_BASE64 = new byte[128]
 
-    static char PADDING_SYMBOL = '=';
-    static byte MASK = 0x3F
+    static def PADDING_SYMBOL = '=';
+    static def MASK = 0x3F
 
     static {
-        int value = 0
-        for (char c = 'A'; c <= 'Z'; c++) {
+        def value = 0
+        for (def c = 'A'; c <= 'Z'; c++) {
             TO_BASE64[value] = c
             FROM_BASE64[c] = value++
         }
-        for (char c = 'a'; c <= 'z'; c++) {
+        for (def c = 'a'; c <= 'z'; c++) {
             TO_BASE64[value] = c
             FROM_BASE64[c] = value++
         }
-        for (char c = '0'; c <= '9'; c++) {
+        for (def c = '0'; c <= '9'; c++) {
             TO_BASE64[value] = c
             FROM_BASE64[c] = value++
         }
@@ -30,14 +30,14 @@ class Base64InGroovy {
     }
 
 
-    static def encode(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
+    static def encode(bytes) {
+        def sb = new StringBuilder();
 
         def length = bytes.length
-        for (int i = 0; i < length; i += 3) {
+        for (def i = 0; i < length; i += 3) {
             sb.append(TO_BASE64[bytes[i] >>> 2])
 
-            byte value = (bytes[i] << 4) & MASK
+            def value = (bytes[i] << 4) & MASK
             if (i + 1 < length) {
                 value += bytes[i + 1] >>> 4
             }
@@ -67,7 +67,7 @@ class Base64InGroovy {
         def bytes = []
 
         def length = encoded.length()
-        for (int i = 0; i < length; i += 4) {
+        for (def i = 0; i < length; i += 4) {
             byte first = encoded.charAt(i)
             byte second = encoded.charAt(i + 1)
             byte third = encoded.charAt(i + 2)
@@ -75,16 +75,14 @@ class Base64InGroovy {
 
             bytes.add((FROM_BASE64[first] << 2) + (FROM_BASE64[second] >>> 4));
 
-            byte value = FROM_BASE64[(byte) second] << 4
+            byte value = FROM_BASE64[second] << 4
             if (third != PADDING_SYMBOL) {
-                value += FROM_BASE64[(byte) third] >>> 2
-                bytes.add(value)
+                bytes.add(value += FROM_BASE64[third] >>> 2)
             }
 
-            value = FROM_BASE64[(byte) third] << 6
+            value = FROM_BASE64[third] << 6
             if (fourth != PADDING_SYMBOL) {
-                value += FROM_BASE64[(byte) fourth]
-                bytes.add(value)
+                bytes.add(value + FROM_BASE64[fourth])
             }
         }
         return bytes
