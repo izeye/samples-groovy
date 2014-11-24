@@ -24,9 +24,9 @@ class Base64InGroovy {
             FROM_BASE64[c] = value++
         }
         TO_BASE64[value] = '+'
-        TO_BASE64['+'] = value++
+        FROM_BASE64['+'] = value++
         TO_BASE64[value] = '/'
-        TO_BASE64['/'] = value++
+        FROM_BASE64['/'] = value++
     }
 
 

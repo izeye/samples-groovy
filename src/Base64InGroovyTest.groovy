@@ -1,6 +1,9 @@
 /**
  * Created by izeye on 2014. 11. 20..
  */
+
+// NOTE:
+// The following test data come from http://en.wikipedia.org/wiki/Base64.
 input1 = "any carnal pleasure."
 input2 = "any carnal pleasure"
 input3 = "any carnal pleasur"
